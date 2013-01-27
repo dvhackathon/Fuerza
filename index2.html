@@ -61,48 +61,54 @@
 				threshold_count: 1,
 				categories: [
 					{
-						name: 'Cell Problems',
+						name: 'Attack Vectors',
 						questions: [
 							{
-								name: 'Cell sounds funny?',
-								type: 'multiple',
-								values: {'little': 'A little', 'lot': 'A lot'},
-								threshold: 'little',
-								recommendations: [
-									'Play white noise all the time.'
-								] 
-							},
-							{
-								name: 'Video camera light is on all the time?',
+								name: 'My email is monitored or interfered with?',
 								type: 'yes-no',
 								values: ['yes','no'],
 								threshold: 'yes',
 								recommendations: [
-									'Install anti-stalking software.',
-									'Smash cell with hammer.'
-								] 
-							}
-						]
-					},
-					{
-						name: 'Email Problems',
-						questions: [
-							{
-								name: 'Suspicious inbox?',
-								type: 'multiple',
-								values: {'little': 'A little', 'lot': 'A lot'},
-								threshold: 'little',
-								recommendations: [
-									'Use tor.'
+								'If your email is being monitored or interfered with, you need to follow clean protocols for email. If you are seeking help from someone for this problem, you need to follow clean protcols to connect them through a secure channel before they can start to help you, so that your abuser does not become aware of their help.'
 								] 
 							},
 							{
-								name: 'Lots of spam?',
+								name: 'He can overhead my conversations?',
 								type: 'yes-no',
 								values: ['yes','no'],
 								threshold: 'yes',
 								recommendations: [
-									"Dont worry!"
+								'If someone seems to know thing that you only discussed in private or on a phone, you may be under cellphone or microphone surveillance.'
+								] 
+							},
+							{
+								name: 'He knows where I am?',
+								type: 'yes-no',
+								values: ['yes','no'],
+								threshold: 'yes',
+								recommendations: [
+								'If someone seems to know where you are or show up seemingly by chance frequently at places you are, you may be under GPS surveillance.',
+								'If you are seeking help from someone for this problem, you need to follow clean protocols to connect them through a secure channel before they can start to help you, so that your abuser does not become aware of their help.'
+								] 
+							},
+							{
+								name: 'Weird stuff keeps happenning to my devices?',
+								type: 'yes-no',
+								values: ['yes','no'],
+								threshold: 'yes',
+								recommendations: [
+								'If you are experiencing deleting files, turning devices on and off, changing passwords without your knowledge or recollection, &tc, you may be under general harassment and surveillance.',
+								'If you are seeking help from someone for this problem, you need to follow clean protocols to connect them through a secure channel before they can start to help you, so that your abuser does not become aware of their help.'
+								] 
+							},
+							{
+								name: 'Someone is making fake posts to facebook, a website, etc?',
+								type: 'yes-no',
+								values: ['yes','no'],
+								threshold: 'yes',
+								recommendations: [
+								'If you are experiencing deleting files, turning devices on and off, changing passwords without your knowledge or recollection, &tc, you may be under general harassment and surveillance.',
+								'If you are seeking help from someone for this problem, you need to follow clean protocols to connect them through a secure channel before they can start to help you, so that your abuser does not become aware of their help.'
 								] 
 							}
 						]
@@ -185,7 +191,6 @@
 					$.each(category.questions, function(j, question) {
 						qnum = ccnt + '-' + qcnt;
 						var recommendations = find_recommendation(checklist, question, qnum);
-						//console.log('for value ' + question.values + ' recommendation ' + recommendations);
 						
 						if (recommendations.length > 0) {
 							threshold_count += 1;
@@ -286,19 +291,19 @@
 				threshold_count: 1,
 				categories: [
 					{
-						name: 'Cell Problems',
+						name: 'Red flags',
 						questions: [
 							{
-								name: 'Cell sounds funny?',
+								name: 'Knows where you are',
 								type: 'multiple',
-								values: {'little': 'A little', 'lot': 'A lot'},
-								threshold: 'little',
+								values: {'Always': 'always', 'Often': 'quite often', 'Rarely': 'rarely'},
+								threshold: 'often',
 								recommendations: [
-									'Play white noise all the time.'
+									'Check for GPS tracker'
 								] 
 							},
 							{
-								name: 'Video camera light is on all the time?',
+								name: 'Knows content of your conversations?',
 								type: 'yes-no',
 								values: ['yes','no'],
 								threshold: 'yes',
@@ -445,7 +450,7 @@
 				var elem = $('#diagnosis-field-container');
 				var res_html = create_checklist(checklist2,elem);
 				elem.append(res_html);
-				find_recommendations(checklist,$('#diagnosis-prognosis'),$('#diagnosis-recommendations'));
+				find_recommendations(checklist2,$('#diagnosis-prognosis'),$('#diagnosis-recommendations'));
 				
 			});
 		</script>
@@ -477,16 +482,93 @@
 	<div data-role="content" >	
 		<p>Now that we understand your problem better, here are some more recommendations.
 	
-		<h5>Problem 1: Fine-grained solutions to some problem</h5>
+		<h5>Problem 1: My Android is being spied on</h5>
 		<ol>
-			<li>Do Thing 1.</li>
-			<li>Do Thing 2.</li>
+			<li>If you have an Android, you can run an app that will try to find spyware. There may be kinds of spyware it doesn’t recognize, but if it does find spyware, it will let you uninstall it. <a href = "https://play.google.com/store/apps/details?id=com.soundmobilesystems.android.spyappdetector&hl=en">Use this app. </a></li>
+			<li>If you still suspect you're being spied on, do a factory reset of your phone. To get to the factory reset option, go to the menu and select the settings button. Then select the "Privacy" option. Factory data reset will be the last option under "Privacy." Click that, and then press the "Reset Phone" button.</li>
+			<img src="Screenshots/Android factory reset.png" width = 200 alt="Android factory reset screen shot">
+			
 		</ol>
 
-		<h5>Problem 2: Fine-grained solutions to some problem</h5>
+		<h5>Problem 2: My iPhone is being spied on.</h5>
 		<ol>
-			<li>Do Thing 1.</li>
-			<li>Do Thing 2.</li>
+			<li>Restore your original settings. Do this by syncing your iPhone using iTunes.</li>
+			<li>Go to the page you would normally use in iTunes as a home page to update your music or apps.</li>
+			<li>On the home screen, underneath the "Check for Update" button, you will see the "Restore" button. <b>You will lose all of your apps and data.</b></li>
+			<img src = "Screenshots/iPhone reset screenshot.png" alt = "iPhone screen shot.">
+		</ol>
+
+	
+		<h5>Problem 3: My computer has SpectorSoft keystroke tracker on it</h5>
+		<ol>
+			<li>Press the "Ctrl," "Shift" and "Esc" keys at the same time to start the Task Manager.</li>
+			<li>Click the "Processes" tab in the Task Manager's window.</li>
+			<li>Select "winnetcl.exe" from the list of the processes and click "End Process" button. Select "webebot.exe" from the list of the processes and click "End Process" button.</li>
+			<li>Close the Task Manager.</li>
+			<li>Go to the "Start" menu, type "cmd" in the "Start Search" box and press "Enter" to start the command line window.</li>
+			<li>Type "regsvr32 /u netknlhm.dll" in the command line window and press "Enter" to unregister the DLL. Type "regsvr32 /u netknl.dll" in the command line window and press "Enter" to unregister the DLL.</li>
+			<li>Close the command line window.</li>
+			<li>Go to the "Start" menu, type "winnetcl.hlp" in the "Start Search" box and press "Enter." Delete all search results.</li>
+			<li>Repeat Step 1 for "winnetcl.cnt," "599ca53a.tmp," "_msfilea.txt," "netknlhm.dll," "netknl.dll," " winnetcl.exe" and "webebot.exe."</li>
+			<li>Restart your computer.</li>
+		</ol>
+		
+		<h5>Problem 4: My computer has an unknown keystroke tracker on it</h5>
+		<ol>
+			<li>Run a search for keystroke trackers.</li>
+				<ol>
+					<li>Press the "Ctrl," "Shift" and "Esc" keys at the same time to start the Task Manager.</li>
+					<li>Click the "Processes" tab in the Task Manager's window.</li>
+					<li>Select "winnetcl.exe" from the list of the processes and click "End Process" button. Select "webebot.exe" from the list of the processes and click "End Process" button.</li>
+					<li>Close the Task Manager.</li>
+				</ol>
+				
+			<li>Use an on-screen keypad on a PC.</li>
+				<ol>
+					<li>Click on Start</li>
+					<li>Go to All Programs</li>
+					<li>Click onAccessories</li>
+					<li>Select Accessibility</li>
+					<li>Click on On-Screen Keyboard</li>
+				</ol>
+			<li>Use an on-screen keypad on a Mac.</li>
+				<ol>
+					<li>Click on the tiny flag on the menu bar at the upper right of your screen.</li>
+					<li>Click "show keyboard viewer." Click the letters on the screen instead of typing on your keyboard.</li>
+				</ol>
+		</ol>
+
+		<h5>Problem 5: Someone is reading my Internet history.</h5>
+		<ol>
+			<li>I'm using Safari.<li>
+			<ol>
+				<li>Go to the History option on the menu.</li>
+				<li>The last option on the menu will be "Clear History." Click it.</li>
+				<img src="Screenshots/Safari delete history.jpg" width=400 alt="Safari screen shot">
+			</ol>
+			<li>I'm using Firefox.</li>
+			<ol>
+				<li>In the bar at the top of your screen or browser, select "Tools."</li>
+				<img src="Screenshots/Firefox tools browser.png" width = 400 alt="Where to find Tools">
+				<li>There should be an option called "Clear Recent History." Click on that.</li>
+				<img src = "Screenshots/Firefox clear history.png" width=400 alt="Firefox clear history screen shot.">	
+				<li>If you have an older version of Firefox:</li>
+				<ol>
+					<li>Go to the "Tools" menu and click "Options."</li>
+					<li>On the menu that pops up, click the "Privacy" button.</li>
+					<li>Go to "History," and click "Clear."</li>
+				</ol>
+				
+			</ol>
+			<li>I'm using Chrome.</li>
+			<ol>
+				<li>Go to History on the browser menu.</li>
+				<li>The last item on the drop-down menu will be "Show all history." Click it.</li>
+				<li> list of your browser history will pop up in a new window. A button at the top will say "Clear all browsing data." Click that.</li>
+				<li>The pop-up menu will give you a drop down-menu for how much data you want to erase, and a series of options to click. Click all of the options, and from the drop-down menu pick "the beginning of time."</li>
+				<li>lick "Clear browsing data."</li>
+				<img src="Screenshots/Chrome screenshot 2.png" width = 400 alt="Another Chrome screenshot">
+			</ol>
 		</ol>
 		<p><a data-rel="back" data-role="button">Back</a></p>	
 	</div>
