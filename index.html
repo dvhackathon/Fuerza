@@ -298,6 +298,10 @@
 		<p>Since you are radioactive, lets dig in and understand you problem better.
 	
 			<script type="text/javascript">
+			var common_phones = '<a href="/phones.html">See these phone instructions.</a>\n';
+			var shared_computer = "If possible, target should cold boot the machine they are using.\n <ul><li>First insert Tails Thumb Drive</li>\n <li>Be sure there are no CDs or other thumb drives inserted</li>\n <li>Then cold boot the machine by turning it off and on again.</li>\n <li>Tails will control the machine and you will be logged in to tTor</li>\n <li>When finished, remove Tails Thumb drive</li>\n <li>Machine will forensically overwrite memory, leaving no trace of the session.</li>\n <li>Use full-disk encryption to protect your main hard drive.</li>\n 		<ul>\n       <li>Microsoft BitLocker (available on some versions of Windows) (http://windows.microsoft.com/is-IS/windows7/Set-up-your-hard-disk-for-BitLocker-Drive-Encryption)</li>\n       <li>TrueCrypt - Freeware. Works on most OSes (Mac, Windows, Linux) (http://www.truecrypt.org)</li>\n       <li>FileVault 2 if using MacOS X 10.8 (Mountain Lion) (http://support.apple.com/kb/HT4790)</li>\n 		</ul>\n";
+			var shared_browser = "<ul> <li>Download Tor from current browser</li> <li>Open Tor Browser bundle</li> <li>no need to “install” Tor, just open the downloaded file</li> <li>Close other browser</li> <li>Use only Tor</li> <li>If you need to, create a USB with Tor</li> </ul>";
+			var shared_email = "<ul> <li>Log in to Tor</li> <li>Set up gmail acct thru Tor: required cellphone and alt. email acct</li> <li>Suggest http://www.mailinator.com/ service to defeat email requirement</li> <li>Review yahoo, other email acct requirements</li> Use disposable tracphone for cellphone info. Must change default password immediately</li> </ul>";
 			var checklist2 = {
 				name: 'Devices',
 				threshold_count: 1,
@@ -311,6 +315,7 @@
 								values: ['yes','no'],
 								threshold: 'yes',
 								recommendations: [
+									common_phones
 								] 
 							},
 							{
@@ -319,7 +324,7 @@
 								values: ['yes','no'],
 								threshold: 'yes',
 								recommendations: [
-									'Check for GPS tracker'
+									common_phones
 								] 
 							},
 							{
@@ -328,6 +333,7 @@
 								values: ['yes','no'],
 								threshold: 'yes',
 								recommendations: [
+									common_phones
 								] 
 							},
 							
@@ -342,6 +348,7 @@
 								values: ['yes','no'],
 								threshold: 'yes',
 								recommendations: [
+									shared_computer
 								] 
 							},
 							{
@@ -350,30 +357,10 @@
 								values: ['yes','no'],
 								threshold: 'yes',
 								recommendations: [
-								] 
+									shared_computer
+								]
 							}
 							
-						]
-					},
-					{
-						name: 'Computers',
-						questions: [
-							{
-								name: 'Laptop?',
-								type: 'yes-no',
-								values: ['yes','no'],
-								threshold: 'yes',
-								recommendations: [
-								] 
-							},
-							{
-								name: 'Desktop?',
-								type: 'yes-no',
-								values: ['yes','no'],
-								threshold: 'yes',
-								recommendations: [
-								] 
-							}
 						]
 					},
 					{
@@ -385,6 +372,7 @@
 								values: ['yes','no'],
 								threshold: 'yes',
 								recommendations: [
+								shared_browser
 								] 
 							},
 							{
@@ -393,6 +381,7 @@
 								values: ['yes','no'],
 								threshold: 'yes',
 								recommendations: [
+								shared_browser
 								] 
 							}
 						]

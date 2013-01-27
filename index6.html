@@ -161,12 +161,14 @@
 					res_html += '</select>' + "\n";
 				}
 				res_html += "</div>\n";
-				// return res_html;
 				return res_html;
 			};
 			
 			function find_recommendation(checklist, question, qnum) {
+				threshold_count = 0;
 				value = $('#question-'+qnum).val()
+				console.log("the value is "+value);
+				console.log(question.threshold);
 				if (value == question.threshold) {
 					return question.recommendations;
 				}
@@ -176,24 +178,16 @@
 			};
 			
 			function find_recommendations(checklist,prognosis_elem,elem){
-				console.log(checklist);
-				console.log(prognosis_elem);
-				console.log(elem);
-				
-				
 				var ccnt = 1;
 				var qcnt = 1;
 				var res_html = '';
 				var threshold_count = 0;
 				
 				$.each(checklist.categories, function(i, category) {
-					console.log(i)
-					console.log(category.name)
 					res_html += '<h3>Category: ' + category.name + "</h3>\n";
 					$.each(category.questions, function(j, question) {
 						qnum = ccnt + '-' + qcnt;
 						var recommendations = find_recommendation(checklist, question, qnum);
-						//console.log('for value ' + question.values + ' recommendation ' + recommendations);
 						
 						if (recommendations.length > 0) {
 							threshold_count += 1;
@@ -209,7 +203,7 @@
 					});
 					ccnt += 1;
 				});
-				console.log(res_html);
+				//console.log(res_html);
 				if ( threshold_count >= checklist.threshold_count) {
 					prognosis_elem.html('');
 					elem.html(res_html);
@@ -521,9 +515,6 @@
 			};
 			
 			function find_recommendations(checklist,prognosis_elem,elem){
-				console.log(checklist);
-				console.log(prognosis_elem);
-				console.log(elem);
 				
 				
 				var ccnt = 1;
@@ -532,8 +523,8 @@
 				var threshold_count = 0;
 				
 				$.each(checklist.categories, function(i, category) {
-					console.log(i)
-					console.log(category.name)
+					//console.log(i)
+					//console.log(category.name)
 					res_html += '<h3>Category: ' + category.name + "</h3>\n";
 					$.each(category.questions, function(j, question) {
 						qnum = ccnt + '-' + qcnt;
@@ -554,7 +545,7 @@
 					});
 					ccnt += 1;
 				});
-				console.log(res_html);
+				//console.log(res_html);
 				if ( threshold_count >= checklist.threshold_count) {
 					prognosis_elem.html('');
 					elem.html(res_html);
