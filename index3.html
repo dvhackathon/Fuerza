@@ -1,0 +1,423 @@
+<!DOCTYPE html> 
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Anti-Stalker Checklist</title> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0-beta.1/jquery.mobile-1.3.0-beta.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.3.0-beta.1/jquery.mobile-1.3.0-beta.1.min.js"></script>
+</head> 
+
+	
+<body> 
+
+<!-- Start of first page: #one -->
+<div data-role="page" id="intro">
+
+	<div data-role="header">
+		<h1>Anti-Stalker Checklist</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" >	
+		<h2>Step 1: Introduction, Pre-checklist</h2>
+		
+		<p>
+			General information about the purpose of the site.
+		</p>
+		<p>
+			If you are a helper or a target seeking help from a helper, the first step is to follow this protocol for general communication.
+		<p>
+		<ul>
+			<li>At the very beginning of the call: do not discuss at that moment whether or not the line is tapped.
+			<li>if the partner or person on the call brings it up, redirect away from this topic as the tapper will overhear.
+			<li>always ask the client or person on the call at very beginning of conversation what phone they are using.
+			<li>...
+		</ul>
+		
+		<p><a href="#triage" data-role="button">Start Triage Checklist</a></p>	
+	</div>
+	<div data-role="footer" data-theme="d">
+		<h4>Introduction</h4>
+	</div><!-- /footer -->
+</div><!-- /page one -->
+
+
+<!-- Start of second page: #triage -->
+<div data-role="page" id="triage">
+
+	<div data-role="header">
+		<h1>Step 2: Triage</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" >
+		
+		<script type="text/javascript">
+			var checklist = {
+				name: 'Triage',
+				threshold_cound: 1,
+				categories: [
+					{
+						name: 'Cell Problems',
+						questions: [
+							{
+								name: 'Cell sounds funny?',
+								type: 'multiple',
+								values: {'little': 'A little', 'lot': 'A lot'},
+								threshold: 'little',
+								recommendations: [
+									'Play white noise all the time.'
+								] 
+							},
+							{
+								name: 'Video camera light is on all the time?',
+								type: 'yes-no',
+								values: ['yes','no'],
+								threshold: 'yes',
+								recommendations: [
+									'Install anti-stalking software.',
+									'Smash cell with hammer.'
+								] 
+							}
+						]
+					},
+					{
+						name: 'Email Problems',
+						questions: [
+							{
+								name: 'Suspicious inbox?',
+								type: 'multiple',
+								values: {'little': 'A little', 'lot': 'A lot'},
+								threshold: 'little',
+								recommendations: [
+									'Use tor.'
+								] 
+							},
+							{
+								name: 'Lots of spam?',
+								type: 'yes-no',
+								values: ['yes','no'],
+								threshold: 'yes',
+								recommendations: [
+									"Dont worry!"
+								] 
+							}
+						]
+					}
+				]
+			};
+		
+			var answers = [
+				{1: [1,2], 2: [2,4]}
+			];
+		
+			function create_checklist(checklist,elem) {
+				var qcnt=1;
+				var ccnt=1;
+				var res_html = '';
+				$.each(checklist.categories, function(i,category){
+					res_html += create_category(category, ccnt, qcnt);
+					ccnt+=1;
+				});
+				res_html += "\n";
+				elem.append(res_html);
+			};
+		
+			function create_category(category, ccnt, qcnt) {
+				var res_html = "<div class='category' id='category-"+ccnt+"'>\n";
+				res_html += "<h3>Category "+ccnt+'. '+ category.name + "</h3>\n";
+				$.each(category.questions, function(i,q) {
+					res_html += create_question(q, ccnt, qcnt);
+					qcnt+=1;
+				});
+				res_html += "</div>\n";
+				return res_html;
+			};
+		
+			function create_question(question, ccnt, qcnt) {
+				var res_html = '<div data-role="fieldcontain">';
+				var qnum = ccnt+'-'+qcnt;
+				
+				res_html += '<label for="question-'+qnum+'">'+qnum+'. '+question.name+'</label>' + "\n";
+				
+				if ( question.type == 'yes-no' ) {
+					res_html += '<select name="question-'+qnum+'" id="question-'+qnum+'" data-role="slider">'  + "\n";
+					res_html += '	<option value="'+question.values[0]+'">'+question.values[0].toUpperCase()+'</option>' + "\n";
+					res_html += '	<option value="'+question.values[1]+'">'+question.values[1].toUpperCase()+'</option>' + "\n";
+					res_html += '</select>' + "\n";
+				}
+				else if (question.type == 'multiple') {
+					res_html += '<select name="question-'+qnum+'" id="question-'+qnum+'">' + "\n";
+					$.each(question.values, function(k,v) {
+						res_html += '	<option value="'+k+'">'+v+'</option>' + "\n";
+					});
+					res_html += '</select>' + "\n";
+				}
+				res_html += "</div>\n";
+				// return res_html;
+				return res_html;
+			};
+			
+			function find_recommendation(checklist, question, qnum) {
+				value = $('#question-'+qnum).val()
+				if (value == question.threshold) {
+					return question.recommendations;
+				}
+				else {
+					return [];
+				}
+			};
+			
+			function find_recommendations(checklist,prognosis_elem,elem){
+				var ccnt = 1;
+				var qcnt = 1;
+				var res_html = '';
+				var threshold_count = 0;
+				
+				$.each(checklist.categories, function(i, category) {
+					res_html += '<h3>Category: ' + category.name + "</h3>\n";
+					$.each(category.questions, function(j, question) {
+						qnum = ccnt + '-' + qcnt;
+						var recommendations = find_recommendation(checklist, question, qnum);
+						console.log('for value ' + question.value + ' recommendation ' + recommendations);
+						
+						if (recommendations.length > 0) {
+							threshold_count += 1;
+							res_html += "<h5>"+question.name+"</h5>";
+							res_html += "<ul>\n"
+							
+							$.each(recommendations, function(i,rec){
+								res_html += "<li>"+rec+"</li>";
+							});
+							res_html += "</ul>\n";
+						}
+						qcnt += 1;
+					});
+					ccnt += 1;
+				});
+				console.log(res_html);
+				if ( threshold_count >= checklist.threshold_count) {
+					prognosis_elem.html('');
+					elem.html(res_html);
+				}
+				else {
+					prognosis_elem.html('');
+					elem.html("None");
+				}
+			};
+		
+			function update_recommendations(checklist, elem) {
+				var recs = find_recommendations(checklist,elem);
+				
+			}
+		
+			$(function(){
+				var elem = $('#triage-field-container');
+				var res_html = create_checklist(checklist,elem);
+				elem.append(res_html);
+				find_recommendations(checklist,$('#triage-prognosis'),$('#triage-recommendations'));
+				
+			});
+		</script>
+		
+		<form name="triage-form" id="triage-form" action="#" method="get">
+			<div data-role="fieldcontain" id='triage-field-container'>
+				
+			</div>
+			
+		</form>
+		
+		
+	</div>
+	
+	<p><a href="#summary" data-role="button" onclick="find_recommendations(checklist, $('#triage-field-container'));">Summary</a></p>
+	<p><a data-rel="back" data-role="button">Back</a></p>	
+	
+	
+	<div data-role="footer">
+		<h4>Triage</h4>
+	</div><!-- /footer -->
+</div><!-- /page two -->
+
+<!-- Start of third page: #summary -->
+<div data-role="page" id="summary">
+
+	<div data-role="header">
+		<h1>Step 3: Summary</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" >	
+		<p>Based on your answers in triage, we think you are:
+		<h1 id="triage-prognosis"></h3>
+	
+		<h2>Recommendations</h2>
+		
+		<div id="triage-recommendations">
+		</div>
+		
+		<p><a href="#diagnosis" data-role="button">Diagnosis</a></p>	
+		<p><a data-rel="back" data-role="button">Back</a></p>	
+	</div>
+	
+	<div data-role="footer">
+		<h4>Summary</h4>
+	</div><!-- /footer -->
+</div><!-- /page three -->
+
+<!-- Start of fourth page: #diagnosis -->
+<div data-role="page" id="diagnosis">
+
+	<div data-role="header">
+		<h1>Step 4: Diagnosis</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" >	
+		<p>Since you are radioactive, lets dig in and understand you problem better.
+	
+			<form name="diagnosis-form" id="diagnosis-form" action="#" method="get">
+
+				<div data-role="fieldcontain">
+					<label for="question-1">Question 1 (Yes/No example)</label>
+					<select name="question-1" id="question-1" data-role="slider">
+						<option value="no">No</option>
+						<option value="yes">Yes</option>
+					</select>
+				</div>
+
+				<div data-role="fieldcontain">
+				<fieldset data-role="controlgroup">
+					<legend>Question 2 (Select Example):</legend>
+					<input type="checkbox" name="checkbox-1a" id="checkbox-1a" class="custom" />
+					<label for="checkbox-1a">High</label>
+
+					<input type="checkbox" name="checkbox-2a" id="checkbox-2a" class="custom" />
+					<label for="checkbox-2a">Medium</label>
+
+					<input type="checkbox" name="checkbox-3a" id="checkbox-3a" class="custom" />
+					<label for="checkbox-3a">Low</label>
+
+					<input type="checkbox" name="checkbox-4a" id="checkbox-4a" class="custom" />
+					<label for="checkbox-4a">Non-Existant</label>
+			    </fieldset>
+				</div>
+
+				<div data-role="fieldcontain">
+					<label for="slider">Question 3 (Range):</label>
+				 	<input type="range" name="slider" id="slider" value="50" min="0" max="100" data-highlight="true"  />
+				</div>
+
+			</form>
+	
+	
+			<p><a data-rel="back" data-role="button">Back</a></p>	
+		<p><a href="#finale" data-role="button">Final Recommendation</a></p>	
+		
+	</div>
+	
+	<div data-role="footer">
+		<h4>Summary</h4>
+	</div><!-- /footer -->
+</div><!-- /page fourh -->
+
+<!-- Start of fifth page: #finale -->
+<div data-role="page" id="finale">
+
+	<div data-role="header">
+		<h1>Step 5: Finale Recommendations</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" >	
+		<p>Now that we understand your problem better, here are some more recommendations.
+	
+		<h5>Problem 1: My Android is being spied on</h5>
+		<ol>
+			<li>If you have an Android, you can run an app that will try to find spyware. There may be kinds of spyware it doesn’t recognize, but if it does find spyware, it will let you uninstall it. <a href = "https://play.google.com/store/apps/details?id=com.soundmobilesystems.android.spyappdetector&hl=en">Use this app. </a></li>
+			<li>If you still suspect you're being spied on, do a factory reset of your phone. To get to the factory reset option, go to the menu and select the settings button. Then select the "Privacy" option. Factory data reset will be the last option under "Privacy." Click that, and then press the "Reset Phone" button.</li>
+			<li><img src="Android factory reset.png" alt="Android factory reset screen shot"></li>
+			
+		</ol>
+
+		<h5>Problem 2: My iPhone is being spied on.</h5>
+		<ol>
+			<li>Restore your original settings. Do this by syncing your iPhone using iTunes. Go to the page you would normally use in iTunes as a home page to update your music or apps. On the home screen, underneath the "Check for Update" button, you will see the "Restore" button. <b>You will lose all of your apps and data.</b></li>
+			<li><img src = "iPhone reset screenshot.png" alt = "iPhone screen shot."></li>
+		</ol>
+		<p><a data-rel="back" data-role="button">Back</a></p>
+	
+		<h5>Problem 3: My computer has SpectorSoft keystroke tracker on it</h5>
+		<ol>
+			<li>Press the "Ctrl," "Shift" and "Esc" keys at the same time to start the Task Manager.</li>
+			<li>Click the "Processes" tab in the Task Manager's window.</li>
+			<li>Select "winnetcl.exe" from the list of the processes and click "End Process" button. Select "webebot.exe" from the list of the processes and click "End Process" button.</li>
+			<li>Close the Task Manager.</li>
+			<li>Go to the "Start" menu, type "cmd" in the "Start Search" box and press "Enter" to start the command line window.</li>
+			<li>Type "regsvr32 /u netknlhm.dll" in the command line window and press "Enter" to unregister the DLL. Type "regsvr32 /u netknl.dll" in the command line window and press "Enter" to unregister the DLL.</li>
+			<li>Close the command line window.</li>
+			<li>Go to the "Start" menu, type "winnetcl.hlp" in the "Start Search" box and press "Enter." Delete all search results.</li>
+			<li>Repeat Step 1 for "winnetcl.cnt," "599ca53a.tmp," "_msfilea.txt," "netknlhm.dll," "netknl.dll," " winnetcl.exe" and "webebot.exe."</li>
+			<li>Restart your computer.</li>
+		</ol>
+		
+		<h5>Problem 4: My computer has an unknown keystroke tracker on it</h5>
+		<ol>
+			<li>Run a search for keystroke trackers.</li>
+				<ol>
+					<li>Press the "Ctrl," "Shift" and "Esc" keys at the same time to start the Task Manager.</li>
+					<li>Click the "Processes" tab in the Task Manager's window.</li>
+					<li>Select "winnetcl.exe" from the list of the processes and click "End Process" button. Select "webebot.exe" from the list of the processes and click "End Process" button.</li>
+					<li>Close the Task Manager.</li>
+				</ol>
+				
+			<li>Use an on-screen keypad on a PC.</li>
+				<ol>
+					<li>Click on Start</li>
+					<li>Go to All Programs</li>
+					<li>Click onAccessories</li>
+					<li>Select Accessibility</li>
+					<li>Click on On-Screen Keyboard</li>
+				</ol>
+			<li>Use an on-screen keypad on a Mac.</li>
+				<ol>
+					<li>Click on the tiny flag on the menu bar at the upper right of your screen.</li>
+					<li>Click "show keyboard viewer." Click the letters on the screen instead of typing on your keyboard.</li>
+				</ol>
+		</ol>
+
+		<h5>Problem 5: Someone is reading my Internet history.</h5>
+		<ol>
+			<li>I'm using Safari.<li>
+			<ol>
+				<li>Go to the History option on the menu.</li>
+				<li>The last option on the menu will be "Clear History." Click it.</li>
+				<img src="https://www.dropbox.com/s/vgh6oxin8dd6lgc/Safari%20delete%20history.jpg" alt="Safari screen shot">
+			</ol>
+			<li>I'm using Firefox.</li>
+			<ol>
+				<li>In the bar at the top of your screen or browser, select "Tools."</li>
+				<li>There should be an option called "Clear Recent History." Click on that.</li>
+				<li>If you have an older version of Firefox:</li>
+				<ol>
+					<li>Go to the "Tools" menu and click "Options."</li>
+					<li>On the menu that pops up, click the "Privacy" button.</li>
+					<li>Go to "History," and click "Clear."</li>
+				</ol>
+			<li>I'm using Chrome.</li>
+			<ol>
+				<li>Go to History on the browser menu.</li>
+				<li>The last item on the drop-down menu will be "Show all history." Click it.</li>
+				<li> list of your browser history will pop up in a new window. A button at the top will say "Clear all browsing data." Click that.</li>
+				<li>The pop-up menu will give you a drop down-menu for how much data you want to erase, and a series of options to click. Click all of the options, and from the drop-down menu pick “the beginning of time.”</li>
+				<li>lick “Clear browsing data.”</li>
+
+			</ol>
+				
+		<p><a data-rel="back" data-role="button">Back</a></p>	
+	</div>
+	
+	<div data-role="footer">
+		<h4>Finale Recommendations</h4>
+	</div><!-- /footer -->
+</div><!-- /page three -->
+</body>
+</html>
